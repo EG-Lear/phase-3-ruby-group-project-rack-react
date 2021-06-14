@@ -11,6 +11,14 @@ class Application
         song_reqs = HandleSongReqs.new
         object = song_reqs.all_songs
         resp.write object.to_json
+      elsif req.path.match(/artists/)
+        song_reqs = HandleSongReqs.new
+        object = song_reqs.artists_reqs
+        resp.write object.to_json
+      elsif req.path.match(/playlists/)
+        song_reqs = HandleSongReqs.new
+        object = song_reqs.playlists_reqs
+        resp.write object.to_json
       else
         resp.write "Path Not Found"
         resp.status 404
