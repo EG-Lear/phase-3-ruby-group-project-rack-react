@@ -29,6 +29,11 @@ class Application
         check = Login.new
         object = check.check_user_and_pass(input)
         resp.write object.to_json
+      elsif req.path.match(/register/)
+        input = JSON.parse(req.body.read)
+        check = Login.new
+        object = check.register_new(input)
+        resp.write object.to_json
       else
         resp.write "Path Not Found"
         resp.status 404
