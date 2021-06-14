@@ -7,6 +7,10 @@ class Application
     if req.get? #handles get requests
       if req.path.match(/test/) 
         return [200, { 'Content-Type' => 'application/json' }, [ {:message => "test response!"}.to_json ]]
+      elsif req.path.match(/allsongs/)
+        song_reqs = HandleSongReqs.new
+        object = song_reqs.all_songs
+        resp.write object.to_json
       else
         resp.write "Path Not Found"
         resp.status 404
@@ -15,8 +19,8 @@ class Application
       if req.path.match(/login/)
         input = JSON.parse(req.body.read)
         check = Login.new
-        an_obj = check.check_user_and_pass(input)
-        resp.write an_obj.to_json
+        object = check.check_user_and_pass(input)
+        resp.write object.to_json
       else
         resp.write "Path Not Found"
         resp.status 404

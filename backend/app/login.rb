@@ -8,7 +8,6 @@ class Login
     else
       response = {passed: false} 
     end
-    puts response
     response
   end
 
