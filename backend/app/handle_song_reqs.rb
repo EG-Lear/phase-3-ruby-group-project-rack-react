@@ -17,12 +17,21 @@ class HandleSongReqs
         artist_songs << {name: song.name, genre: song.genre, artist_name: song.artist.name}
         puts "in second each"
       end
-      songs << {grouped: artist_songs}
+      songs << {artists: artist_songs}
     end
     songs
   end
 
   def playlists_reqs
     songs = []
+    Playlist.all.order(:name).each do |list|
+      playlist_songs = []
+      list.songs.order(:name).each do |song|
+        playlist_songs << {name: song.name, genre: song.genre, artist: song.artist.name}
+        puts "in second each"
+      end
+      songs << {playlist: list.name, songs: playlist_songs}
+    end
+    songs
   end
 end

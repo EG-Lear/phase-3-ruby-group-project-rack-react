@@ -23,7 +23,7 @@ class Application
         resp.write "Path Not Found"
         resp.status 404
       end
-    elsif req.post?
+    elsif req.post? # handles post requests
       if req.path.match(/login/)
         input = JSON.parse(req.body.read)
         check = Login.new
