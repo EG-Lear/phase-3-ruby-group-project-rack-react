@@ -13,12 +13,10 @@ class Application
       end
     elsif req.post?
       if req.path.match(/login/)
-        puts "log path"
         input = JSON.parse(req.body.read)
         check = Login.new
-        check.check_user_and_pass(input)
-        # resp.write check.to_json
-        # resp.status 200
+        an_obj = check.check_user_and_pass(input)
+        resp.write an_obj.to_json
       else
         resp.write "Path Not Found"
         resp.status 404
