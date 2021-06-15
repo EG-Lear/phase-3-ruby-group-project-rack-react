@@ -39,6 +39,11 @@ class Application
         new_stuff = HandleCreateDelete.new
         response = new_stuff.create_song_artist(input)
         resp.write response.to_json
+      elsif req.path.match(/playcrea/)
+        input = JSON.parse(req.body.read)
+        new_stuff = HandleCreateDelete.new
+        response = new_stuff.create_playlist(input)
+        resp.write response.to_json
       else
         resp.write "Path Not Found"
         resp.status 404
@@ -48,6 +53,11 @@ class Application
         input = JSON.parse(req.body.read)
         goodbye = HandleCreateDelete.new
         response = goodbye.deletion(input)
+        resp.write response.to_json
+      elsif req.path.match(/playdel/)
+        input = JSON.parse(req.body.read)
+        goodbye = HandleCreateDelete.new
+        response = goodbye.delete_playlist(input)
         resp.write response.to_json
       else
         resp.write "Path Not Found"

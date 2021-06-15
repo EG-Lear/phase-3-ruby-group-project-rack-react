@@ -28,4 +28,27 @@ class HandleCreateDelete
     response
   end
 
+  def create_playlist(data)
+    response = []
+    if Song.find_by(name: data["song"]) == nil
+      response << {response: "Please choose an existing song"}
+    else
+      new_playlist = Playlist.find_or_create_by(name: data["playlist"])
+      new_playlist.songs << Song.find_by(name: data["song"])
+      response << {response: "Your playlist modifications have been made"}
+    end
+    response
+  end
+
+  def delete_playlist(data)
+    response = []
+    if Playlist.find_by(name: data["playlist"]) == nil
+      response << {response: "No playlist raised its hand, is it spelled right?"}
+    else
+      Playlist.find_by(name: data["playlist"]).destroy
+      response << {response: "Wave Goodbye"}
+    end
+    response
+  end
+
 end
