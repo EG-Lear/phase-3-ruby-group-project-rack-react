@@ -34,6 +34,21 @@ class Application
         check = Login.new
         object = check.register_new(input)
         resp.write object.to_json
+      elsif req.path.match(/create/)
+        input = JSON.parse(req.body.read)
+        new_stuff = HandleCreateDelete.new
+        response = new_stuff.create_song_artist(input)
+        resp.write response.to_json
+      else
+        resp.write "Path Not Found"
+        resp.status 404
+      end
+    elsif req.delete?
+      if req.path.match(/delete/)
+        input = JSON.parse(req.body.read)
+        goodbye = HandleCreateDelete.new
+        response = goodbye.deletion(input)
+        resp.write response.to_json
       else
         resp.write "Path Not Found"
         resp.status 404
