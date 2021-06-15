@@ -19,8 +19,13 @@ class HandleCreateDelete
 
   def deletion(data)
     response = []
-    puts data
-
+    if Song.find_by(name: data["song"]) == nil
+      response << {response: "Could not find song to smash"}
+    else
+      Song.find_by(name: data["song"]).destroy
+      response << {response: "SMASH"}
+    end
+    response
   end
 
 end
