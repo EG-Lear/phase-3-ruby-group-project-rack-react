@@ -7,7 +7,7 @@ class Application
     if req.get? #handles get requests
       if req.path.match(/test/) 
         return [200, { 'Content-Type' => 'application/json' }, [ {:message => "test response!"}.to_json ]]
-      elsif req.path.match(/allsongs/)
+      elsif req.path.match(/songs/)
         song_reqs = HandleSongReqs.new
         object = song_reqs.all_songs
         resp.write object.to_json
@@ -34,12 +34,12 @@ class Application
         check = Login.new
         object = check.register_new(input)
         resp.write object.to_json
-      elsif req.path.match(/create/)
+      elsif req.path.match(/songs/)
         input = JSON.parse(req.body.read)
         new_stuff = HandleCreateDelete.new
         response = new_stuff.create_song_artist(input)
         resp.write response.to_json
-      elsif req.path.match(/playcrea/)
+      elsif req.path.match(/playlists/)
         input = JSON.parse(req.body.read)
         new_stuff = HandleCreateDelete.new
         response = new_stuff.create_playlist(input)
@@ -49,12 +49,12 @@ class Application
         resp.status 404
       end
     elsif req.delete?
-      if req.path.match(/delete/)
+      if req.path.match(/songs/)
         input = JSON.parse(req.body.read)
         goodbye = HandleCreateDelete.new
         response = goodbye.deletion(input)
         resp.write response.to_json
-      elsif req.path.match(/playdel/)
+      elsif req.path.match(/playlists/)
         input = JSON.parse(req.body.read)
         goodbye = HandleCreateDelete.new
         response = goodbye.delete_playlist(input)

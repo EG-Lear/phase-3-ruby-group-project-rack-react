@@ -4,9 +4,7 @@ class HandleCreateDelete
     response = []
     last_artist = Artist.last
     last_song = Song.last
-    new_song = Song.find_or_create_by(name: data["song"], genre: data["genre"])
-    new_artist = Artist.find_or_create_by(name: data["artist"])
-    new_artist.songs << new_song
+    Artist.find_or_create_by(name: data["artist"]).songs.find_or_create_by(name: data["song"], genre: data["genre"])
     if Song.last != last_song
       response << {created: true, response: "New song and/or artist has been created"}
     elsif Artist.last != last_artist
@@ -34,8 +32,12 @@ class HandleCreateDelete
       response << {response: "Please choose an existing song"}
     else
       new_playlist = Playlist.find_or_create_by(name: data["playlist"])
-      new_playlist.songs << Song.find_by(name: data["song"])
-      response << {response: "Your playlist modifications have been made"}
+      if new_playlist.songs.find_by(name: data["song"]) == nil
+        new_playlist.songs << Song.find_by(name: data["song"])
+        response << {response: "Your playlist modifications have been made"}
+      else
+        response << {response: "This song is already in this playlist"}
+      end
     end
     response
   end
